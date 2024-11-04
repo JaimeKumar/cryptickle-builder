@@ -181,12 +181,14 @@ small
     height: 80%;
 }
 
-.deliveryWindow button
+#deliverButtons
 {
+    display: flex;
+    column-gap: 20px;
     position: absolute;
     bottom: 20px;
     right: 20px;
-    width: 150px;
+    width: 300px;
 }
 
 .displayDelivery

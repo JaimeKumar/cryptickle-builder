@@ -83,7 +83,10 @@
             <span style="font-size: 0.7rem;">(and send to Jaime if you're not Jaime)</span>
             <br>
             <textarea id="deliver" readonly onfocus="this.select()"></textarea>
-            <button onclick="newPuzzle()">New Puzzle</button>
+            <div id="deliverButtons">
+                <button onclick="closeDeliver()">Go Back</button>
+                <button onclick="newPuzzle()">New Puzzle</button>
+            </div>
         </div>
     </div>
     <script src="index.js"></script>

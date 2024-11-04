@@ -271,10 +271,17 @@ function newPuzzle()
         "r5c5" : {sel: false, val: null, conf: false, r: 5, c: 5}
     }
 
+    words = {};
+
     selectedCell = null;
 
     updateCells();
 
+    document.querySelector('.deliveryWindow').classList.remove('displayDelivery');
+}
+
+function closeDeliver()
+{
     document.querySelector('.deliveryWindow').classList.remove('displayDelivery');
 }
 
