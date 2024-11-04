@@ -50,26 +50,38 @@
             </table>
         
             <div class="ui">
-                <h4>Selected Cell</h4>
-                <span id="seleCell">none</span>
-                <div class="gap"></div>
-                <h4>Direction</h4>
-                <form id="dirSelector" style="display: flex; column-gap: 20px;" onchange="dirChanged()">
-                    <div class="dirSelectorBlock">
-                        <input type="radio" name="dir" id="a">
-                        <span>Across</span>
+                <div class="uiRow">
+                    <div class="uiHalf">
+                        <h4>Selected Cell</h4>
+                        <span id="seleCell">none</span>
+                        <div class="gap"></div>
+                        <h4>Direction</h4>
+                        <form id="dirSelector" style="display: flex; column-gap: 20px;" onchange="dirChanged()">
+                            <div class="dirSelectorBlock">
+                                <input type="radio" name="dir" id="a">
+                                <span>Across</span>
+                            </div>
+                            <div class="dirSelectorBlock">
+                                <input type="radio" name="dir" id="d">
+                                <span>Down</span>
+                            </div>
+                        </form>
+                        <div class="gap"></div>
+                        <h4>Solution</h4>
+                        <input type="text" name="" id="solution" maxlength="5" minlength="3" oninput="solutionChange()" onchange="finishInput()">
+                        <div class="gap"></div>
+                        <h4>Clue <small>(no need to add length)</small></h4>
+                        <textarea type="text" name="" id="clue"></textarea>
                     </div>
-                    <div class="dirSelectorBlock">
-                        <input type="radio" name="dir" id="d">
-                        <span>Down</span>
+                    <div class="uiHalf">
+                        <h4 style="margin-bottom: 1px;">Hints</h4>
+                        <textarea id="hint1" class="hintInput"></textarea>
+                        <textarea id="hint2" class="hintInput"></textarea>
+                        <textarea id="hint3" class="hintInput"></textarea>
+                        <textarea id="hint4" class="hintInput"></textarea>
+                        <textarea id="hint5" class="hintInput"></textarea>
                     </div>
-                </form>
-                <div class="gap"></div>
-                <h4>Solution</h4>
-                <input type="text" name="" id="solution" maxlength="5" minlength="3" oninput="solutionChange()" onchange="finishInput()">
-                <div class="gap"></div>
-                <h4>Clue <small>(no need to add length)</small></h4>
-                <textarea type="text" name="" id="clue"></textarea>
+                </div>
                 <div class="gap"></div>
                 <button id="submit" onclick="submitWord()">Submit Word</button>
             </div>
@@ -89,6 +101,6 @@
             </div>
         </div>
     </div>
-    <script src="index.js"></script>
+    <script src="index.js?v=1.1"></script>
 </body>
 </html>

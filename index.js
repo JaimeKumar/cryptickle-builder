@@ -193,8 +193,17 @@ function submitWord()
         }
     }
 
+    var hintArr = [];
+    document.querySelectorAll('.hintInput').forEach(ele => {
+        if (ele.value != "")
+        {
+            hintArr.push(ele.value);
+            ele.value = "";
+        }
+    })
+
     var lineID = (lineDir == "a") ? cells[selectedCell].r + "a" : cells[selectedCell].c + "d";
-    words[lineID] = {word: solution, clue: document.getElementById('clue').value, startingCell: selectedCell};
+    words[lineID] = {word: solution, clue: document.getElementById('clue').value, startingCell: selectedCell, hints: hintArr};
 
     solution = null;
     lineDir = null;
