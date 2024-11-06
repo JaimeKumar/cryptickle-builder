@@ -32,6 +32,31 @@
      column-gap: 20px;
  }
 
+ .cluesDisplay
+ {
+    border-radius: 8px;
+    width: 200px;
+    height: 400px;
+    box-shadow: 0 0 8px #00000088;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+ }
+
+ .cluesDisplayNode
+ {
+    border-radius: 6px;
+    border: 1px solid #00000042;
+    padding: 6px;
+    cursor: pointer;
+ }
+
+ .cluesDisplayNode:hover
+ {
+    background-color: #00000011;
+ }
+
  table
  {
     background-color: black;
@@ -49,6 +74,8 @@
     vertical-align: middle;
     font-size: 1.3rem;
     text-transform: uppercase;
+    user-select: none;
+    -webkit-user-select: none;
  }
 
  .empty
@@ -122,6 +149,17 @@
     display: flex;
     column-gap: 5px;
     align-items: center;
+}
+
+#seleCell
+{
+    height: 25px;
+    border-radius: 4px;
+    padding-left: 4px;
+    border: 1px solid black;
+    box-shadow: inset 0 0 5px #00000022;
+    background-color: #00000011;
+    width: 100%;
 }
 
 #solution
@@ -211,10 +249,345 @@ small
     position: absolute;
     bottom: 20px;
     right: 20px;
-    width: 300px;
+    width: 500px;
 }
 
 .displayDelivery
 {
     display: block;
+}
+
+.testCont
+{
+    display: none;
+    height: 100vh;
+    height: 100svh;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+}
+
+.showTest
+{
+    display: flex;
+}
+
+.gameCont
+{
+    width: min(90vw, 550px);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    row-gap: clamp(20px, 10vh, 28px);
+    position: relative;
+    z-index: 100;
+    height: 100%;
+    padding: clamp(8px, 4svh, 36px) 0;
+}
+
+.centralCont
+{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: clamp(8px, 8vh, 16px);
+}
+
+.gameTable
+{
+    width: 100%;
+    background-color: black;
+    aspect-ratio: 1;
+    border: 1px solid black;
+    position: relative;
+}
+
+tbody
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.testCell {
+    background-color: white;
+    width: 20%;
+    height: 20%;
+    min-width: calc((100% * 0.1) + 10px);
+    min-height: calc((100% * 0.1) + 10px);
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2rem;
+    text-transform: uppercase;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lineSelect
+{
+    background-color: rgb(206, 244, 255);
+}
+
+.cellSelect
+{
+    background-color: rgb(248, 255, 183);
+}
+
+.cellBlocked {
+    background-color: black;
+    cursor: default;
+    pointer-events: none;
+}
+
+.clueBox
+{
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 12px;
+}
+
+#testclue
+{
+    font-size: clamp(10px, 3.4vw, 16px);
+    height: min-content;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.clueArrow
+{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 4px;
+}
+
+.clueArrow p
+{
+    font-size: 2rem;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+    height: min-content;
+}
+
+.overScreen
+{
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+    background-color: #00000055;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+.winWindow
+{
+    width: calc(min(90vw, 450px) * 0.8);
+    text-align: center;
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0 0 14px #000000cc;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    transition: transform 0.4s ease;
+    transform: scale(0.01);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hintWindow
+{
+    width: calc(min(90vw, 450px) * 0.8);
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0 0 14px #000000cc;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    transition: transform 0.4s ease;
+    transform: scale(0.01);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.helpWindow
+{
+    width: min(95%, 600px);
+    height: 95%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0 0 14px #000000cc;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    transition: transform 0.4s ease;
+    transform: scale(0.01) translate(-50%, -50%);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.closeButton
+{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.showOverScreen
+{
+    visibility: visible;
+    z-index: 101;
+}
+
+.winned
+{
+    transform: scale(1);
+}
+
+.helpShow
+{
+    transform: scale(1) translate(-50%, -50%);
+}
+
+.hintShow
+{
+    transform: scale(1) translate(-50%, -50%);
+}
+
+#pseudo
+{
+    opacity: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99;
+    position: absolute;
+}
+
+.backButton
+{
+    background-color: rgb(45, 97, 142);
+    color: white;
+    font-size: 1rem;
+    padding: 4px 12px;
+    font-weight: bolder;
+    border-radius: 8px;
+    text-align: center;
+    width: fit-content;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.backButton:hover
+{
+    background-color: rgb(15, 50, 81);
+}
+
+.archiveNode
+{
+    padding: 4px 12px;
+    border-radius: 8px;
+    width: fit-content;
+    box-shadow: 0 0 6px #00000088;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background-color: white;
+}
+
+.archiveNode:hover
+{
+    background-color: rgb(220, 244, 255);
+}
+
+.archivesDisplay
+{
+    width: 100%;
+    margin-top: 20px;
+    height: fit-content;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hintBox
+{
+    margin-top: 6px;
+    width: 100%;
+    border: 1px solid #777;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    column-gap: 12px;
+    transition: 0.4s;
+    cursor: pointer;
+    justify-content: space-between;
+    /* background: #ddd; */
+}
+
+.hintReveal
+{
+    border-radius: 6px;
+    height: 100%;
+    min-height: 35px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.hintBox:hover
+{
+    background-color: #d6d6d6;
+}
+
+.hideHiddenReveal
+{
+    display: none;
+}
+
+.hintDisplay
+{
+    max-height: 40px;
+    font-size: 0.9rem;
+    line-clamp: 3;
+    overflow: auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hintDivider
+{
+    height: 100%;
+    width: 2px;
+    border-right: 1px solid #ccc;
 }

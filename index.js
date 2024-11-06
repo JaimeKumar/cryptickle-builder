@@ -1,5 +1,6 @@
 var selectedCell = null;
 var lineDir = null;
+var currentLine = null;
 var solution = null;
 
 var words = {};
@@ -32,57 +33,124 @@ var cells = {
     "r5c5" : {sel: false, val: null, conf: false, r: 5, c: 5}
 }
 
-function updateCells()
+function refreshGrid()
 {
-    Object.keys(cells).forEach(cID => {
-        var ele = document.getElementById(cID);
-        if (cells[cID].sel)
-        {
-            ele.classList.add('selected');
-        }
-        else
-        {
-            ele.classList.remove('selected');
-        }
-
-        ele.innerHTML = cells[cID].val;
+    document.querySelectorAll('.cell').forEach((cell, i) => {
+        cell.classList.remove('selected');
+        cell.classList.remove('suggested');
+        cell.classList.add('empty');
+        cell.innerHTML = "";
     })
 
-    if (selectedCell) document.getElementById('seleCell').innerHTML = selectedCell;
+    for (var lineID in words)
+    {
+        const increment = lineID.slice(1) == "a" ? 
+            (j) => {return words[lineID].startingCell.slice(0, 3) + (+words[lineID].startingCell.slice(3) + j)}:
+            (j) => {return words[lineID].startingCell.slice(0, 1) + (+words[lineID].startingCell.slice(1, 2) + j) + words[lineID].startingCell.slice(2)};
+
+        for (var i = 0; i < words[lineID].word.length; i++)
+        {
+            var cell = increment(i);
+            document.getElementById(cell).innerHTML = words[lineID].word.charAt(i);
+            document.getElementById(cell).classList.add('selected');
+        }
+    }
 }
 
 function selectCell(cell)
 {
+    for (var lineID in words)
+    {
+        if (words[lineID].word.length < 3) delete words[lineID];
+    }
+
     if (cell == selectedCell) return;
-    document.getElementsByName("dir").forEach(radio => {
-        radio.checked = false;
-    })
-    lineDir = null;
 
-    solution = null;
-    document.getElementById('solution').value = "";
+    var canBeAcrross = true;
+    var canBeDown = true;
+    var lineToSelect = null;
+    for (var line in words)
+    {
+        var cellsInLine = getCellsInLine(line);
+        if (cellsInLine.includes(cell))
+        {
+            if (line.slice(1) == "a") canBeAcrross = false;
+            else if (line.slice(1) == "d") canBeDown = false;
+            lineToSelect = line;
+        }
+    }
 
-    clearUnconfirmedCells()
+    if (!canBeAcrross && !canBeDown)
+    {
+        loadWord(lineToSelect);
+        return;
+    }
+
+    if (canBeAcrross) 
+    {
+        currentLine = cell.slice(1, 2) + "a";
+        document.getElementById("a").checked = true;
+        document.getElementById("d").checked = false;
+    }
+    else if (canBeDown)
+    {
+        currentLine = cell.slice(3) + "d";
+        document.getElementById("a").checked = false;
+        document.getElementById("d").checked = true;
+    }
+
+    words[currentLine] = {word: `⠀`, startingCell: cell, clue: "", hints: []};
 
     selectedCell = cell;
+    lineDir = null;
+    solution = null;
 
-    deselectEmptyCells();
-    cells[cell].sel = true;
-    updateCells();
-}
-
-function clearUnconfirmedCells()
-{
-    Object.keys(cells).forEach(cID => {
-        if (cells[cID].conf) return;
-        cells[cID].val = null;
-    })
+    document.getElementById('seleCell').style.color = '#000';
+    document.getElementById('seleCell').value = cell;
+    document.getElementById('solution').value = "";
+    document.getElementById('clue').value = "";
+    document.querySelectorAll('.hintInput').forEach(ele => ele.value = "");
+    
+    refreshGrid();
 }
 
 function possCell(cell)
 {
     if (selectedCell) return;
-    document.getElementById('seleCell').innerHTML = `<p style="color: #00000044;">${cell}</p>`;
+    document.getElementById('seleCell').style.color = '#00000044';
+    document.getElementById('seleCell').value = cell;
+}
+
+function changeSeleCell(e)
+{
+    if (e.value.length < 4) return;
+    var r = e.value.slice(1, 2);
+    var c = e.value.slice(3)
+    if (r > 0 && r < 6 && c > 0 && c < 6)
+    {
+        selectedCell = e.value;
+        words[currentLine].startingCell = e.value;
+        refreshGrid();
+    }
+    else
+    {
+        e.value = selectedCell;
+    }
+}
+
+function getCellsInLine(lineID)
+{
+    var res = [];
+    const increment = lineID.slice(1) == "a" ? 
+        (j) => {return words[lineID].startingCell.slice(0, 3) + (+words[lineID].startingCell.slice(3) + j)}:
+        (j) => {return words[lineID].startingCell.slice(0, 1) + (+words[lineID].startingCell.slice(1, 2) + j) + words[lineID].startingCell.slice(2)};
+
+    for (var i = 0; i < words[lineID].word.length; i++)
+    {
+        var cell = increment(i);
+        res.push(cell);
+    }
+    return res;
 }
 
 function dirChanged()
@@ -99,121 +167,76 @@ function dirChanged()
         if (radio.checked) lineDir = radio.id;
     })
 
-    var aCells = Object.keys(cells).filter(cID => cells[cID].r == cells[selectedCell].r && cells[cID].c >= cells[selectedCell].c);
-    var dCells = Object.keys(cells).filter(cID => cells[cID].c == cells[selectedCell].c && cells[cID].r >= cells[selectedCell].r);
-    if (lineDir == "a")
+    var tempLine = lineDir == "a" ? `${selectedCell.slice(1, 2)}a` : `${selectedCell.slice(3)}d`;
+
+    if (words[currentLine].word.length > 2)
     {
-        var cellsToSelect = aCells;
-        dCells.forEach(cID => {
-            if (cells[cID].conf) return;
-            cells[cID].val = null;
-        })
-    }
-    else if (lineDir == "d")
-    {
-        var cellsToSelect = dCells;
-        aCells.forEach(cID => {
-            if (cells[cID].conf) return;
-            cells[cID].val = null;
-        })
+
+        words[tempLine] = {...words[currentLine]};
+        delete words[currentLine];
+        currentLine = tempLine;
+        refreshGrid();
+        return;
     }
 
-    if (solution) fillSolution();
-
-    deselectEmptyCells();
-
-    cellsToSelect.forEach(cid =>{
-        if (cells[cid].val || !solution) cells[cid].sel = true;
-    })
-    
-    updateCells();
-}
-
-function deselectEmptyCells()
-{
-    Object.keys(cells).filter(cid => !cells[cid].val && cid!=selectedCell).forEach(cid =>{
-        cells[cid].sel = false;
-    })
-}
-
-function fillSolution()
-{
-    var cellsAhead = getCellsInLine();
-    for (var i = 0; i < cellsAhead.length; i++)
-    {
-        cells[cellsAhead[i]].val = i >= solution.length ? null : solution.charAt(i);
-    }
+    currentLine = tempLine;
 }
 
 function solutionChange()
 {
     solution = document.getElementById('solution').value;
-    fillSolution();
-    updateCells();
+    words[currentLine].word = solution;
+    refreshGrid();
+    refreshWordsDisplay();
 }
 
-function getCellsInLine()
+function clueChange(e)
 {
-    var r = cells[selectedCell].r;
-    var c = cells[selectedCell].c;
-    return lineDir == "a" ? Object.keys(cells).filter(cID => cells[cID].r == r && cells[cID].c >= c) : Object.keys(cells).filter(cID => cells[cID].c == c && cells[cID].r >= r);
+    words[currentLine].clue = e.value;
 }
 
-function finishInput()
+function hintChange(which)
 {
-    var r = cells[selectedCell].r;
-    var c = cells[selectedCell].c;
-    var cellsAhead = getCellsInLine();
-    
-    if (cellsAhead.length > solution.length)
+    words[currentLine].hints[which-1] = document.getElementById(`hint${which}`).value;
+}
+
+function refreshWordsDisplay()
+{
+    document.getElementById('cluesDisplay').innerHTML = "";
+    for (var lineID in words)
     {
-        for (var i = solution.length; i < cellsAhead.length; i++)
-        {
-            cells[cellsAhead[i]].sel = false;
-        }
-        updateCells();
+        document.getElementById('cluesDisplay').innerHTML += `<div class="cluesDisplayNode" onclick="loadWord('${lineID}')"><b>${lineID}:</b> ${words[lineID].word}</div>`;
     }
 }
 
-function submitWord()
+function loadWord(lineID)
 {
-    for (var i = 0; i < solution.length; i++)
+    for (var line in words)
     {
-        if (lineDir == "a")
-        {
-            var thisCol = cells[selectedCell].c + i;
-            var cellID = `r${cells[selectedCell].r}c${thisCol}`
-            cells[cellID].conf = true;
-        }
-        else if (lineDir == "d")
+        if (words[line].word.length < 3) delete words[line];
+    }
+
+    solution = words[lineID].word;
+    lineDir = lineID.slice(1);
+    selectedCell = words[lineID].startingCell;
+
+    currentLine = lineID;
+
+    document.getElementById('seleCell').value = selectedCell;
+    document.getElementById(lineDir).checked = true;
+    document.getElementById('solution').value = solution;
+    document.getElementById('clue').value = words[lineID].clue;
+    if ("hints" in words[lineID])
+    {
+        document.querySelectorAll('.hintInput').forEach((ele, i) => {
+            if (i < words[lineID].hints.length)
             {
-            var thisRow = cells[selectedCell].r + i;
-            var cellID = `r${thisRow}c${cells[selectedCell].c}`
-            cells[cellID].conf = true;
-        }
+                ele.value = words[lineID].hints[i];
+            }
+        })
     }
 
-    var hintArr = [];
-    document.querySelectorAll('.hintInput').forEach(ele => {
-        if (ele.value != "")
-        {
-            hintArr.push(ele.value);
-            ele.value = "";
-        }
-    })
-
-    var lineID = (lineDir == "a") ? cells[selectedCell].r + "a" : cells[selectedCell].c + "d";
-    words[lineID] = {word: solution, clue: document.getElementById('clue').value, startingCell: selectedCell, hints: hintArr};
-
-    solution = null;
-    lineDir = null;
-    selectedCell = null;
-    document.getElementById('seleCell').innerHTML = 'none';
-    document.getElementsByName("dir").forEach(radio => {
-        radio.checked = false;
-    })
-    document.getElementById('solution').value = "";
-    document.getElementById('clue').value = "";
+    refreshGrid();
 }
 
 function sortClues(clues) {
@@ -235,7 +258,6 @@ function sortClues(clues) {
 
 function generateJSON()
 {
-    if (solution) submitWord();
     var sorted = sortClues(words);
     document.getElementById('deliver').value = JSON.stringify(sorted, null, 2);
     document.querySelector('.deliveryWindow').classList.add('displayDelivery');
@@ -250,7 +272,7 @@ function newPuzzle()
 
     solution = null;
     document.getElementById('solution').value = "";
-    document.getElementById('seleCell').innerHTML = "none";
+    document.getElementById('seleCell').value = "none";
 
     cells = {
         "r1c1" : {sel: false, val: null, conf: false, r: 1, c: 1},
@@ -292,6 +314,11 @@ function newPuzzle()
 function closeDeliver()
 {
     document.querySelector('.deliveryWindow').classList.remove('displayDelivery');
+}
+
+function test()
+{
+    window.open('/cryptickle-tester/index.html', '_blank');
 }
 
 document.querySelectorAll('.cell').forEach(ele => {
