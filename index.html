@@ -88,16 +88,24 @@
                 </div>
             </div>
         </div>
-        <div class="finButtonLine">
+        <div style="display: flex; column-gap: 18px;">
             <button id="finishPuzzle" style="padding: 0 10px; width: 200px;" onclick="generateJSON()">Submit Puzzle</button>
+            <button id="loadPuzzle" style="padding: 0 10px; width: 200px;" onclick="loadPuzzle()">Load Puzzle</button>
         </div>
 
-        <div class="deliveryWindow">
+        <div class="deliveryWindow" id="loadWindow">
+            <textarea id="loadTA" placeholder="paste puzzle code here"></textarea>
+            <div class="deliverButtons">
+                <button onclick="submitLoad()">Load Puzzle</button>
+            </div>
+        </div>
+
+        <div class="deliveryWindow" id="deliveryWindow">
             <b>Please copy the code below:</b> <br>
             <span style="font-size: 0.7rem;">(and send to Jaime if you're not Jaime)</span>
             <br>
             <textarea id="deliver" readonly onfocus="this.select()"></textarea>
-            <div id="deliverButtons">
+            <div class="deliverButtons">
                 <button onclick="test()">Test Puzzle</button>
                 <button onclick="closeDeliver()">Go Back</button>
                 <button onclick="newPuzzle()">New Puzzle</button>

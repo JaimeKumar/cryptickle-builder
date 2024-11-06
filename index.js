@@ -61,7 +61,7 @@ function selectCell(cell)
 {
     for (var lineID in words)
     {
-        if (words[lineID].word.length < 3) delete words[lineID];
+        if (words[lineID].word.length < 2) delete words[lineID];
     }
 
     if (cell == selectedCell) return;
@@ -213,7 +213,7 @@ function loadWord(lineID)
 {
     for (var line in words)
     {
-        if (words[line].word.length < 3) delete words[line];
+        if (words[line].word.length < 2) delete words[line];
     }
 
     solution = words[lineID].word;
@@ -260,7 +260,20 @@ function generateJSON()
 {
     var sorted = sortClues(words);
     document.getElementById('deliver').value = JSON.stringify(sorted, null, 2);
-    document.querySelector('.deliveryWindow').classList.add('displayDelivery');
+    document.getElementById('deliveryWindow').classList.add('displayDelivery');
+}
+
+function loadPuzzle()
+{
+    document.getElementById('loadWindow').classList.add('displayDelivery');
+}
+
+function submitLoad()
+{
+    words = JSON.parse(document.getElementById('loadTA').value);
+    refreshGrid();
+    refreshWordsDisplay();
+    document.getElementById('loadWindow').classList.remove('displayDelivery');
 }
 
 function newPuzzle()

@@ -230,7 +230,7 @@ small
     -webkit-user-select: none;
 }
 
-#deliver
+.deliveryWindow textarea
 {
     border: 1px solid #000000;
     padding: 16px;
@@ -242,7 +242,7 @@ small
     height: 80%;
 }
 
-#deliverButtons
+.deliverButtons
 {
     display: flex;
     column-gap: 20px;
