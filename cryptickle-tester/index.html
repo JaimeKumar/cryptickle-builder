@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="index.css?v=1.2">
+    <meta name="description" content="Daily mini cryptic crossword puzzle · A tickle of Cryptic!">
+    <title>cryptickle</title>
+</head>
+<body>
+    <textarea id="pseudo"></textarea>
+
+    <div class="gameCont" id="gameCont">
+        <div class="centralCont" id="centralCont">
+            <div id="time">0:00</div>
+            <table class="gameTable" id="gameTable">
+                <tbody>
+                    <tr id="row1">
+                        <td class="cell" id="r1c1"></td>
+                        <td class="cell" id="r1c2"></td>
+                        <td class="cell" id="r1c3"></td>
+                        <td class="cell" id="r1c4"></td>
+                        <td class="cell" id="r1c5"></td>
+                    </tr>
+                    <tr id="row2">
+                        <td class="cell" id="r2c1"></td>
+                        <td class="cell" id="r2c2"></td>
+                        <td class="cell" id="r2c3"></td>
+                        <td class="cell" id="r2c4"></td>
+                        <td class="cell" id="r2c5"></td>
+                    </tr>
+                    <tr id="row3">
+                        <td class="cell" id="r3c1"></td>
+                        <td class="cell" id="r3c2"></td>
+                        <td class="cell" id="r3c3"></td>
+                        <td class="cell" id="r3c4"></td>
+                        <td class="cell" id="r3c5"></td>
+                    </tr>
+                    <tr id="row4">
+                        <td class="cell" id="r4c1"></td>
+                        <td class="cell" id="r4c2"></td>
+                        <td class="cell" id="r4c3"></td>
+                        <td class="cell" id="r4c4"></td>
+                        <td class="cell" id="r4c5"></td>
+                    </tr>
+                    <tr id="row5">
+                        <td class="cell" id="r5c1"></td>
+                        <td class="cell" id="r5c2"></td>
+                        <td class="cell" id="r5c3"></td>
+                        <td class="cell" id="r5c4"></td>
+                        <td class="cell" id="r5c5"></td>
+                    </tr>
+                </tbody>
+            </table>
+    
+            <div class="clueBox">
+                <div class="clueArrow" id="clueL" onclick="clueArrow(-1, true)"><p>&#10094;</p></div>
+                <p id="clue"></p>
+                <div class="clueArrow" id="clueR" onclick="clueArrow(1, true)"><p>&#10095;</p></div>
+            </div>
+
+            <div class="hintBox" onclick="hintDesktop()">
+                <div style="display: flex; column-gap: 12px; width: auto; height: 100%;">
+                    <div class="hintReveal">
+                        <img src="./resources/hint-button.svg" alt="hint button" style="height: 80%;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; font-size: 0.9rem;">
+                        <b id="hintLine" style="white-space: nowrap;">Hints for 1a</b>
+                        <span id="hintNum" style="white-space: nowrap;">0 / 0 revealed</span>
+                    </div>
+                </div>
+                <div class="hintDisplay" id="hintDisplay"></div>
+                <p style="color: white;" id="hiddenReveal">Reveal hint</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="overScreen" class="overScreen">
+        <div class="winWindow" id="winWindow">
+            <div class="closeButton" onclick="closeWin()">&#10006;</div>
+            <h1>SOLVED!</h1>
+            <h2 id="solveTime">0:00</h2>
+            <h3 id="hintsUsedWin">Using 0 hints.</h3>
+            <p>Very well done!</p>
+            <p>Come back tomorrow for a new tickle of cryptic!</p>
+        </div>
+    </div>
+
+    <div class="overScreen" id="archivesOverscreen">
+        <div class="helpWindow" id="archives">
+            <div style="display: flex; column-gap: 20px;">
+                <div class="backButton" onclick="archiveBack()">&lt;&nbsp; Back</div>
+                <b id="archiveTitle">Archives</b>
+            </div>
+            <div class="archivesDisplay" id="archivesDisplay"></div>
+        </div>
+    </div>
+
+    <div class="overScreen" id="hintOverscreen">
+        <div class="hintWindow" id="hintWindow">
+            <div class="closeButton" onclick="closeHints()">&#10006;</div>
+            <h4>Hints</h4>
+            <h6 id="hintClue">For clue 1a</h6>
+            <div class="hintsCont" id="hintsCont"></div>
+        </div>
+    </div>
+
+    <div id="inputPuzzle">
+        <textarea type="text" id="puzzleInput">Paste text from builder window here and click submit</textarea>
+        <button style="background-color: rgb(56, 106, 159); color: white;" onclick="submitPuzzle()">Submit</button>
+    </div>
+
+    <script src="index.js?v=1.3"></script>
+</body>
+</html>
