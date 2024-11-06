@@ -318,7 +318,7 @@ function closeDeliver()
 
 function test()
 {
-    window.open('/cryptickle-tester/index.html', '_blank');
+    window.open('/cryptickle-builder/cryptickle-tester/', '_blank');
 }
 
 document.querySelectorAll('.cell').forEach(ele => {
