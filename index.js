@@ -326,7 +326,7 @@ function newPuzzle()
 
 function closeDeliver()
 {
-    document.querySelector('.deliveryWindow').classList.remove('displayDelivery');
+    document.getElementById('deliveryWindow').classList.remove('displayDelivery');
 }
 
 function test()
