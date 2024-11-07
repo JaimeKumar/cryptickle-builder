@@ -169,21 +169,15 @@ function dirChanged()
 
     var tempLine = lineDir == "a" ? `${selectedCell.slice(1, 2)}a` : `${selectedCell.slice(3)}d`;
 
-    if (words[currentLine].word.length > 2)
-    {
-
-        words[tempLine] = {...words[currentLine]};
-        delete words[currentLine];
-        currentLine = tempLine;
-        refreshGrid();
-        return;
-    }
-
+    words[tempLine] = {...words[currentLine]};
+    delete words[currentLine];
     currentLine = tempLine;
+    refreshGrid();
 }
 
 function solutionChange()
 {
+    console.log(currentLine, words[currentLine])
     solution = document.getElementById('solution').value;
     words[currentLine].word = solution;
     refreshGrid();
