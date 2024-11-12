@@ -71,7 +71,10 @@
                             </div>
                         </form>
                         <div class="gap"></div>
-                        <h4>Solution</h4>
+                        <h4>
+                            Solution
+                            <!-- <button class="shuffleButton" onclick="shuffle()">&#8620;</button> -->
+                        </h4>
                         <input type="text" name="" id="solution" maxlength="5" minlength="3" oninput="solutionChange()">
                         <div class="gap"></div>
                         <h4>Clue <small>(no need to add length)</small></h4>
@@ -108,10 +111,10 @@
             <div class="deliverButtons">
                 <button onclick="test()">Test Puzzle</button>
                 <button onclick="closeDeliver()">Go Back</button>
-                <button onclick="newPuzzle()">New Puzzle</button>
+                <button onclick="location.reload()">New Puzzle</button>
             </div>
         </div>
     </div>
-    <script src="index.js"></script>
+    <script src="index.js?v=1.1"></script>
 </body>
 </html>

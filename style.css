@@ -175,6 +175,8 @@
     width: 100%;
 }
 
+
+
 #clue
 {
     height: 154px;
@@ -202,6 +204,15 @@ button
 button:hover
 {
     background-color: rgb(28, 62, 99);
+}
+
+.shuffleButton
+{
+    width: fit-content;
+    padding: 0 8px;
+    height: fit-content;
+    border-radius: 6px;
+    margin-left: 4px;
 }
 
 small

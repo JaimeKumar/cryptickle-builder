@@ -328,6 +328,11 @@ function test()
     window.open('/cryptickle-builder/cryptickle-tester/', '_blank');
 }
 
+function shuffle()
+{
+    
+}
+
 document.querySelectorAll('.cell').forEach(ele => {
     ele.addEventListener('click', e => {
         selectCell(e.target.id)
