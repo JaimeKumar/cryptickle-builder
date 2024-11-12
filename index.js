@@ -129,7 +129,25 @@ function changeSeleCell(e)
     if (r > 0 && r < 6 && c > 0 && c < 6)
     {
         selectedCell = e.value;
+        var oldCell = words[currentLine].startingCell;
         words[currentLine].startingCell = e.value;
+
+        if (currentLine.slice(1) == "a" && cells[oldCell].r != r)
+        {
+            var newLineID = r + "a";
+            words[newLineID] = {...words[currentLine]};
+            delete words[currentLine];
+            currentLine = newLineID;
+            refreshWordsDisplay();
+        } else if (currentLine.slice(1) == "d" && cells[oldCell].c != c)
+        {
+            var newLineID = c + "d";
+            words[newLineID] = {...words[currentLine]};
+            delete words[currentLine];
+            currentLine = newLineID;
+            refreshWordsDisplay();
+        }
+
         refreshGrid();
     }
     else
@@ -177,7 +195,6 @@ function dirChanged()
 
 function solutionChange()
 {
-    console.log(currentLine, words[currentLine])
     solution = document.getElementById('solution').value;
     words[currentLine].word = solution;
     refreshGrid();
@@ -328,10 +345,7 @@ function test()
     window.open('/cryptickle-builder/cryptickle-tester/', '_blank');
 }
 
-function shuffle()
-{
-    
-}
+function shuffle() {}
 
 document.querySelectorAll('.cell').forEach(ele => {
     ele.addEventListener('click', e => {
