@@ -117,6 +117,8 @@ function calcLine()
     {
         selectedLine = thisPuzzle.cells[selectedCell].lineID[+dirSwitch];
     }
+
+    if (!selectedLine) selectedLine = Object.keys(thisPuzzle.words)[0];
 }
 
 function updateHighlight()
@@ -188,24 +190,11 @@ function moveCell(dir)
             dirSwitch = !(dir == "ArrowRight" || dir == "ArrowLeft");
             selectCell(emptyCellsAhead[0]);
         }
-        // else if ((dir == "ArrowRight" || dir == "ArrowDown") && emptyCellsAhead.length <= 0)
-        // {
-        //     clueArrow(1)
-        // }
         else
         {
             selectCell(newCell);
         }
     }
-    // else if (!thisPuzzle.cells[newCell].clickable && cellsAhead.filter(cID => thisPuzzle.cells[cID].clickable).length < 1 && )
-    // {
-    //     clueArrow(1);
-    // }
-    // else if (thisPuzzle.cells[newCell].clickable)
-    // {
-    //     selectCell(newCell);
-    // }
-
 }
 
 function showClue()
