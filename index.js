@@ -244,6 +244,10 @@ function loadWord(lineID)
             {
                 ele.value = words[lineID].hints[i];
             }
+            else
+            {
+                ele.value = "";
+            }
         })
     }
     else {
