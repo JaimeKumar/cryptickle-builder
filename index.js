@@ -246,6 +246,14 @@ function loadWord(lineID)
             }
         })
     }
+    else {
+        document.querySelectorAll('.hintInput').forEach((ele, i) => {
+            if (i < words[lineID].hints.length)
+            {
+                ele.value = "";
+            }
+        })
+    }
 
     refreshGrid();
 }
